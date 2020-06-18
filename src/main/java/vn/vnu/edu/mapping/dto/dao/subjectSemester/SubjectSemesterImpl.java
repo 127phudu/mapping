@@ -21,10 +21,10 @@ public class SubjectSemesterImpl implements SubjectSemesterDao {
     }
 
     @Override
-    public boolean setServerIpForSubjectSemester(Long subjectSemesterId, String serverIp) {
+    public boolean setServerIdForSubjectSemester(Long subjectSemesterId, Long serverId) {
         SubjectSemester subjectSemester = subjectSemesterRepository.findById(subjectSemesterId).orElse(null);
         if (subjectSemester != null) {
-            subjectSemester.setHandleServer(serverIp);
+            subjectSemester.setServerId(serverId);
             subjectSemesterRepository.save(subjectSemester);
             return true;
         } else {

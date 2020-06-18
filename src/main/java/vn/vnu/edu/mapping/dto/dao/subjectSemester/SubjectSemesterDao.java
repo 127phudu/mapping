@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SubjectSemesterDao {
     List<SubjectSemester> findBySemesterId(Long semesterId);
-    boolean setServerIpForSubjectSemester(Long subjectSemesterId, String serverIp);
+    boolean setServerIdForSubjectSemester(Long subjectSemesterId, Long serverId);
 }

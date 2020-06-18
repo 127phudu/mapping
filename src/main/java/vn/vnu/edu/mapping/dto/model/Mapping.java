@@ -8,6 +8,6 @@ import java.io.Serializable;
 @Setter
 @Getter
 public class Mapping implements Serializable {
-    private Long subjectId;
+    private Long subjectSemesterId;
     private String handleServer;
 }

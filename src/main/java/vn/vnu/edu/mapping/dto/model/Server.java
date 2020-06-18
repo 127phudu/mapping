@@ -4,19 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "subject_semester")
-public class SubjectSemester {
+@Table(name = "server")
+public class Server {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String description;
-    private Long subjectId;
-    private Long semesterId;
-    private Long serverId;
+    private String address;
 }

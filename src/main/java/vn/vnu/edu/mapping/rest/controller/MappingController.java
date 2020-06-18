@@ -25,9 +25,9 @@ public class MappingController {
     }
 
     @PatchMapping("/{subjectSemesterId}")
-    public ApiDataResponse setServerIpForSubjectSemester(@PathVariable Long subjectSemesterId, @RequestBody SetMappingRequest setMappingRequest) {
+    public ApiDataResponse setServerIdForSubjectSemester(@PathVariable Long subjectSemesterId, @RequestBody SetMappingRequest setMappingRequest) {
         try {
-            return ApiDataResponse.ok(mappingService.setServerIpForSubjectSemester(subjectSemesterId, setMappingRequest.getServerIp()));
+            return ApiDataResponse.ok(mappingService.setServerIdForSubjectSemester(subjectSemesterId, setMappingRequest.getServerId()));
         } catch (Exception e) {
             return ApiDataResponse.error();
         }
@@ -36,6 +36,7 @@ public class MappingController {
     @DeleteMapping("/emptyCache")
     public ApiDataResponse evictAllCache() {
         mappingService.evictCacheMapping();
+        mappingService.evictCacheListServer();
         mappingService.evictCacheSemester();
         mappingService.evictCacheStudentSubjects();
         return ApiDataResponse.ok(true);

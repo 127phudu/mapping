@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SetMappingRequest {
-    @JsonProperty(value = "serverIp")
-    private String serverIp;
+    @JsonProperty(value = "serverId")
+    private Long serverId;
 
 }
