@@ -24,15 +24,6 @@ public class MappingController {
         }
     }
 
-    @PatchMapping("/{subjectSemesterId}")
-    public ApiDataResponse setServerIdForSubjectSemester(@PathVariable Long subjectSemesterId, @RequestBody SetMappingRequest setMappingRequest) {
-        try {
-            return ApiDataResponse.ok(mappingService.setServerIdForSubjectSemester(subjectSemesterId, setMappingRequest.getServerId()));
-        } catch (Exception e) {
-            return ApiDataResponse.error();
-        }
-    }
-
     @DeleteMapping("/emptyCache")
     public ApiDataResponse evictAllCache() {
         mappingService.evictCacheMapping();
@@ -40,5 +31,18 @@ public class MappingController {
         mappingService.evictCacheSemester();
         mappingService.evictCacheStudentSubjects();
         return ApiDataResponse.ok(true);
+    }
+
+    @PatchMapping("/autoSet/semester/{semesterId}")
+    public ApiDataResponse autoSetMapping(@PathVariable Long semesterId) {
+        try {
+            if (mappingService.autoSetMapping(semesterId)) {
+                return ApiDataResponse.ok("success");
+            } else {
+                return ApiDataResponse.ok("there is no server");
+            }
+        } catch (Exception e) {
+            return ApiDataResponse.error();
+        }
     }
 }

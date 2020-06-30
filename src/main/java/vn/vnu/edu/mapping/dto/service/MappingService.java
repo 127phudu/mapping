@@ -7,11 +7,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import vn.vnu.edu.mapping.dto.dao.semester.SemesterDao;
 import vn.vnu.edu.mapping.dto.dao.server.ServerDao;
+import vn.vnu.edu.mapping.dto.dao.studentSubject.StudentSubjectDao;
 import vn.vnu.edu.mapping.dto.dao.subjectSemester.SubjectSemesterDao;
 import vn.vnu.edu.mapping.dto.model.Mapping;
 
 import vn.vnu.edu.mapping.dto.model.Server;
+import vn.vnu.edu.mapping.dto.model.StudentSubject;
 import vn.vnu.edu.mapping.dto.model.SubjectSemester;
+import vn.vnu.edu.mapping.dto.model.custom.SubjectSemesterCountMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +25,15 @@ public class MappingService {
     private final SubjectSemesterDao subjectSemesterDao;
     private final SemesterDao semesterDao;
     private final ServerDao serverDao;
+    private final StudentSubjectDao studentSubjectDao;
     private final MapperFacade mapperFacade;
 
 
-    public MappingService(MapperFacade mapperFacade, SubjectSemesterDao subjectSemesterDao, SemesterDao semesterDao, ServerDao serverDao) {
+    public MappingService(MapperFacade mapperFacade, SubjectSemesterDao subjectSemesterDao, SemesterDao semesterDao, ServerDao serverDao, StudentSubjectDao studentSubjectDao) {
         this.subjectSemesterDao = subjectSemesterDao;
         this.semesterDao = semesterDao;
         this.serverDao = serverDao;
+        this.studentSubjectDao = studentSubjectDao;
 
         this.mapperFacade = mapperFacade;
     }
@@ -63,8 +68,21 @@ public class MappingService {
     @CacheEvict(value = "listSubjectIdOfStudent", allEntries = true)
     public void evictCacheStudentSubjects () {}
 
-    public boolean setServerIdForSubjectSemester(Long subjectSemesterId, Long serverId) {
-        return subjectSemesterDao.setServerIdForSubjectSemester(subjectSemesterId, serverId);
+    public boolean autoSetMapping(Long semesterId) {
+        List<SubjectSemesterCountMember> subjectSemesterCountMembers = studentSubjectDao.getSubjectSemesterCountMemberBySemesterId(semesterId);
+        List<Server> serverList = serverDao.findAll();
+        int countServer = serverList.size();
+        if (countServer > 0) {
+            int i = 0;
+            for (SubjectSemesterCountMember countMember : subjectSemesterCountMembers) {
+                SubjectSemester subjectSemester = subjectSemesterDao.getById(countMember.getSubjectSemesterId());
+                subjectSemester.setServerId(serverList.get(i).getId());
+                subjectSemesterDao.save(subjectSemester);
+                i = (i + 1) % countServer;
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
-
 }

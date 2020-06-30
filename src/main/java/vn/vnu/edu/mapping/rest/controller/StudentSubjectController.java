@@ -3,10 +3,9 @@ package vn.vnu.edu.mapping.rest.controller;
 import org.springframework.web.bind.annotation.*;
 import vn.vnu.edu.mapping.dto.service.StudentSubjectService;
 import vn.vnu.edu.mapping.rest.model.ApiDataResponse;
-import vn.vnu.edu.mapping.rest.model.SetMappingRequest;
 
 @RestController
-@RequestMapping("/subject")
+@RequestMapping("/subjectSemester")
 public class StudentSubjectController {
 
     private final StudentSubjectService studentSubjectService;
@@ -15,10 +14,10 @@ public class StudentSubjectController {
         this.studentSubjectService = studentSubjectService;
     }
 
-    @GetMapping("/getIds/{studentId}")
-    public ApiDataResponse getListSubjectIdForStudent(@PathVariable Long studentId) {
+    @GetMapping("/getIds/student/{studentId}")
+    public ApiDataResponse getListSubjectSemesterIdForStudent(@PathVariable Long studentId) {
         try {
-            return ApiDataResponse.ok(studentSubjectService.getListSubjectIdForStudent(studentId));
+            return ApiDataResponse.ok(studentSubjectService.getListSubjectSemesterIdForStudent(studentId));
         } catch (Exception e) {
             return ApiDataResponse.error();
         }

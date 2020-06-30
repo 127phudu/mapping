@@ -31,17 +31,17 @@ public class StudentSubjectService {
         this.mapperFacade = mapperFacade;
     }
 
-    @Cacheable(value = "listSubjectIdOfStudent", key = "#studentId")
-    public List<Long> getListSubjectIdForStudent(Long studentId) {
+    @Cacheable(value = "listSubjectSemesterIdOfStudent", key = "#studentId")
+    public List<Long> getListSubjectSemesterIdForStudent(Long studentId) {
         Long semesterId = semesterDao.getCurrentSemesterId();
-        List<Long> listSubjectId = new ArrayList<Long>();
+        List<Long> listSubjectSemesterId = new ArrayList<Long>();
         if (semesterId > 0) {
             List<StudentSubject> studentSubjects = studentSubjectDao.findByStudentIdAndSemesterId(studentId, semesterId);
             for (StudentSubject studentSubject : studentSubjects) {
-                listSubjectId.add(studentSubject.getSubjectId());
+                listSubjectSemesterId.add(studentSubject.getSubjectSemesterId());
             }
 
         }
-        return listSubjectId;
+        return listSubjectSemesterId;
     }
 }

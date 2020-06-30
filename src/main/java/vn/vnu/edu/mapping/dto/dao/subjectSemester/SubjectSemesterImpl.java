@@ -31,4 +31,14 @@ public class SubjectSemesterImpl implements SubjectSemesterDao {
             return false;
         }
     };
+
+    @Override
+    public SubjectSemester getById (Long subjectSemesterId) {
+        return subjectSemesterRepository.getById(subjectSemesterId);
+    }
+
+    @Override
+    public SubjectSemester save (SubjectSemester subjectSemester) {
+        return subjectSemesterRepository.save(subjectSemester);
+    }
 }

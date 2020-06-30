@@ -7,4 +7,6 @@ import java.util.List;
 public interface ServerDao {
     Server getById(Long serverId);
     List<Server> findAll();
+    Server store(Server server);
+    void delete(Server server);
 }

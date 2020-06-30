@@ -23,4 +23,14 @@ public class ServerDaoImpl implements ServerDao {
     public List<Server> findAll() {
         return serverRepository.findAll();
     };
+
+    @Override
+    public Server store(Server server) {
+        return serverRepository.save(server);
+    }
+
+    @Override
+    public void delete(Server server) {
+        serverRepository.delete(server);
+    }
 }
