@@ -1,6 +1,7 @@
 package vn.vnu.edu.mapping.dto.dao.server;
 
 import org.springframework.stereotype.Service;
+import vn.vnu.edu.mapping.common.utilities.PageUtil;
 import vn.vnu.edu.mapping.dto.model.Server;
 import vn.vnu.edu.mapping.dto.repository.ServerRepository;
 
@@ -32,5 +33,15 @@ public class ServerDaoImpl implements ServerDao {
     @Override
     public void delete(Server server) {
         serverRepository.delete(server);
+    }
+
+    @Override
+    public List<Server> findByIdIn(List<Long> ids) {
+        return serverRepository.findByIdIn(ids);
+    }
+
+    @Override
+    public void deleteList(List<Server> serverList) {
+        serverRepository.deleteAll(serverList);
     }
 }

@@ -2,9 +2,14 @@ package vn.vnu.edu.mapping.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
+import vn.vnu.edu.mapping.common.utilities.PageUtil;
 import vn.vnu.edu.mapping.dto.service.ServerService;
 import vn.vnu.edu.mapping.rest.model.ApiDataResponse;
+import vn.vnu.edu.mapping.rest.model.PageBase;
 import vn.vnu.edu.mapping.rest.model.ServerRequest;
+import vn.vnu.edu.mapping.rest.model.server.ServerListResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/server")
@@ -20,6 +25,19 @@ public class ServerController {
     public ApiDataResponse getServerList() {
         try {
             return ApiDataResponse.ok(serverService.findAll());
+        } catch (Exception e) {
+            return ApiDataResponse.error();
+        }
+    }
+
+    @GetMapping("/listForAdmin")
+    public ApiDataResponse<ServerListResponse> getServerListForAdmin(
+        @RequestParam(required = false, value = "Size") Integer size,
+        @RequestParam(required = false, value = "Page") Integer page
+    ) {
+        try {
+            PageBase pageBase = PageUtil.validate(page, size);
+            return ApiDataResponse.ok(serverService.findAllForAdmin(pageBase));
         } catch (Exception e) {
             return ApiDataResponse.error();
         }
@@ -43,10 +61,10 @@ public class ServerController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ApiDataResponse deleteServer(@PathVariable Long id) {
+    @DeleteMapping()
+    public ApiDataResponse deleteList(@RequestBody List<Long> ids) {
         try {
-            serverService.delete(id);
+            serverService.deleteList(ids);
             return ApiDataResponse.ok("success");
         } catch (Exception e) {
             return ApiDataResponse.error();

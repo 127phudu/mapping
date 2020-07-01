@@ -10,5 +10,6 @@ import java.util.List;
 public interface ServerRepository extends JpaRepository<Server,Long> {
     Server getById(Long serverId);
     List<Server> findAll();
+    List<Server> findByIdIn(List<Long> Ids);
 }
  
