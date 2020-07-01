@@ -12,4 +12,7 @@ public class ServerResponse {
 
     @JsonProperty(value = "Address")
     private String address;
+
+    @JsonProperty(value = "NumberOfStudent")
+    Long numberOfStudent;
 }

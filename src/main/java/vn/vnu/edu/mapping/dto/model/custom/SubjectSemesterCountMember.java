@@ -8,9 +8,11 @@ import lombok.Setter;
 public class SubjectSemesterCountMember {
     private Long subjectSemesterId;
     private Long numberOfStudent;
+    private Long serverId;
 
-    public SubjectSemesterCountMember(Long subjectSemesterId, Long numberOfStudent) {
+    public SubjectSemesterCountMember(Long subjectSemesterId, Long numberOfStudent, Long serverId) {
         this.subjectSemesterId = subjectSemesterId;
         this.numberOfStudent = numberOfStudent;
+        this.serverId = serverId;
     }
 }

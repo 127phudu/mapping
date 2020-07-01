@@ -9,4 +9,6 @@ public interface SubjectSemesterDao {
     boolean setServerIdForSubjectSemester(Long subjectSemesterId, Long serverId);
     SubjectSemester getById (Long subjectSemesterId);
     SubjectSemester save (SubjectSemester subjectSemester);
+    List<SubjectSemester> getSubjectSemesterInList(List<Long> listIds);
+    void storeAll(List<SubjectSemester> subjectSemesterList);
 }

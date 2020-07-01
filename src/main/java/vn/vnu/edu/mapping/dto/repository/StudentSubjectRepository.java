@@ -13,11 +13,12 @@ import java.util.List;
 public interface StudentSubjectRepository extends JpaRepository<StudentSubject, Long> {
     List<StudentSubject> findByStudentIdAndSemesterId(Long studentId, Long subjectSemesterId);
 
-    @Query("SELECT new vn.vnu.edu.mapping.dto.model.custom.SubjectSemesterCountMember(s.subjectSemesterId, COUNT(s.studentId)) " +
-            "FROM StudentSubject s " +
-            "WHERE s.semesterId = ?1 " +
-            "GROUP BY s.subjectSemesterId " +
-            "ORDER BY COUNT(s.studentId) ASC")
+    @Query("SELECT new vn.vnu.edu.mapping.dto.model.custom.SubjectSemesterCountMember(st.subjectSemesterId, COUNT(st.studentId), ss.serverId) " +
+            "FROM StudentSubject st " +
+            "JOIN SubjectSemester ss ON st.subjectSemesterId = ss.id " +
+            "WHERE st.semesterId = ?1 " +
+            "GROUP BY st.subjectSemesterId " +
+            "ORDER BY COUNT(st.studentId) ASC")
     List<SubjectSemesterCountMember> getSubjectSemesterCountMemberBySemesterId(
         @Param("semesterId") Long semesterId
     );

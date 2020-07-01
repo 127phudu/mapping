@@ -43,6 +43,20 @@ public class ServerController {
         }
     }
 
+    @GetMapping("/listDetailForAdmin/semester/{semesterId}")
+    public ApiDataResponse<ServerListResponse> getServerListDetailForAdminBySemester(
+        @RequestParam(required = false, value = "Size") Integer size,
+        @RequestParam(required = false, value = "Page") Integer page,
+        @PathVariable Long semesterId
+    ) {
+        try {
+            PageBase pageBase = PageUtil.validate(page, size);
+            return ApiDataResponse.ok(serverService.findAllDetailForAdmin(pageBase, semesterId));
+        } catch (Exception e) {
+            return ApiDataResponse.error();
+        }
+    }
+
     @PostMapping()
     public ApiDataResponse createServer(@RequestBody ServerRequest request) {
         try {

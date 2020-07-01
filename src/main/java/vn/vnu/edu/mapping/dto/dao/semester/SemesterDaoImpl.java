@@ -26,7 +26,6 @@ public class SemesterDaoImpl implements SemesterDao{
     @Cacheable(value = "currentSemester")
     public Long getCurrentSemesterId() {
         List<Integer> listStatus = new ArrayList<Integer>();
-        listStatus.add(Constant.UNREGISTERED);
         listStatus.add(Constant.REGISTERING);
         Semester semester = semesterRepository.findByStatusIn(listStatus);
 

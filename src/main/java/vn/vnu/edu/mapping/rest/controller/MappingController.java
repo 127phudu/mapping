@@ -1,9 +1,14 @@
 package vn.vnu.edu.mapping.rest.controller;
 
 import org.springframework.web.bind.annotation.*;
+import vn.vnu.edu.mapping.common.utilities.PageUtil;
 import vn.vnu.edu.mapping.dto.service.MappingService;
 import vn.vnu.edu.mapping.rest.model.ApiDataResponse;
+import vn.vnu.edu.mapping.rest.model.PageBase;
 import vn.vnu.edu.mapping.rest.model.SetMappingRequest;
+import vn.vnu.edu.mapping.rest.model.mapping.UpdateMappingRequest;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/mapping")
@@ -24,6 +29,20 @@ public class MappingController {
         }
     }
 
+    @GetMapping("/listForAdmin/semester/{semesterId}")
+    public ApiDataResponse getMappingForStudent(
+        @RequestParam(required = false, value = "Size") Integer size,
+        @RequestParam(required = false, value = "Page") Integer page,
+        @PathVariable Long semesterId
+    ) {
+        try {
+            PageBase pageBase = PageUtil.validate(page, size);
+            return ApiDataResponse.ok(mappingService.getMappingForAdmin(pageBase ,semesterId));
+        } catch (Exception e) {
+            return ApiDataResponse.error();
+        }
+    }
+
     @DeleteMapping("/emptyCache")
     public ApiDataResponse evictAllCache() {
         mappingService.evictCacheMapping();
@@ -33,7 +52,7 @@ public class MappingController {
         return ApiDataResponse.ok(true);
     }
 
-    @PatchMapping("/autoSet/semester/{semesterId}")
+    @PutMapping("/autoSet/semester/{semesterId}")
     public ApiDataResponse autoSetMapping(@PathVariable Long semesterId) {
         try {
             if (mappingService.autoSetMapping(semesterId)) {
@@ -41,6 +60,16 @@ public class MappingController {
             } else {
                 return ApiDataResponse.ok("there is no server");
             }
+        } catch (Exception e) {
+            return ApiDataResponse.error();
+        }
+    }
+
+    @PutMapping("/updateList")
+    public ApiDataResponse updateListMapping(@RequestBody List<UpdateMappingRequest> requests) {
+        try {
+            mappingService.updateListMapping(requests);
+            return ApiDataResponse.ok("success");
         } catch (Exception e) {
             return ApiDataResponse.error();
         }
