@@ -58,9 +58,11 @@ public class MappingService {
             subjectSemesters.forEach(subjectSemester -> {
                 Mapping mapping = new Mapping();
                 Server server = serverDao.getById(subjectSemester.getServerId());
-                mapping.setSubjectSemesterId(subjectSemester.getId());
-                mapping.setHandleServer(server.getAddress());
-                mappingList.add(mapping);
+                if (server != null) {
+                    mapping.setSubjectSemesterId(subjectSemester.getId());
+                    mapping.setHandleServer(server.getAddress());
+                    mappingList.add(mapping);
+                }
             });
             return mappingList;
         } else {
