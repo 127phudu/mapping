@@ -85,11 +85,21 @@ public class MappingService {
         int countServer = serverList.size();
         if (countServer > 0) {
             int i = 0;
+            int key;
+            int step = 1;
             for (SubjectSemesterCountMember countMember : subjectSemesterCountMembers) {
+                if (i == -1) {
+                    i = 0;
+                    step = - step;
+                } else if (i == countServer) {
+                    i = countServer - 1;
+                    step = - step;
+                }
+                key = i;
                 SubjectSemester subjectSemester = subjectSemesterDao.getById(countMember.getSubjectSemesterId());
-                subjectSemester.setServerId(serverList.get(i).getId());
+                subjectSemester.setServerId(serverList.get(key).getId());
                 subjectSemesterDao.save(subjectSemester);
-                i = (i + 1) % countServer;
+                i += step;
             }
             return true;
         } else {
