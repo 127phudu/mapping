@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ServerRequest {
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "Id")
     private Long serverId;
 
-    @JsonProperty(value = "address")
+    @JsonProperty(value = "Address")
     private String address;
 }
